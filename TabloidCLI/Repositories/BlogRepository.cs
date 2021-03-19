@@ -8,7 +8,7 @@ using TabloidCLI.Repositories;
 
 namespace TabloidCLI.Repositories
 {
-    public class BlogRepository : DatabaseConnector // IRepository<Blog>
+    public class BlogRepository : DatabaseConnector //, IRepository<Blog>
     {
         public BlogRepository(string connectionString) : base(connectionString) { }
 
@@ -42,8 +42,88 @@ namespace TabloidCLI.Repositories
 
                     return blogs;
                 }
+
             }
         }
+
+
+        public Blog Get(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT b.Id AS BlogId,
+                                               b.FirstName,
+                                               b.LastName
+                                         WHERE b.id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    Blog blog = null;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (blog == null)
+                        {
+                            blog = new Blog()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Url = reader.GetString(reader.GetOrdinal("URL")),
+                            };
+                        }
+                    }
+
+                    reader.Close();
+
+                    return blog;
+                }
+            }
+        }
+
+
+        public void Insert(Blog blog)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Blog (Title, URL)
+                                                     VALUES (@title, @URL)";
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@URL", blog.Url);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public void Update(Blog blog)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Blog 
+                                           SET Title = @title,
+                                               URL = @url
+                                         WHERE id = @id";
+
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@url", blog.Url);
+                    cmd.Parameters.AddWithValue("@id", blog.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
     }
 }
