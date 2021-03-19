@@ -45,33 +45,33 @@ namespace TabloidCLI.Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Post> posts = new List<Post>();
+                    Post post = null; 
+
                     while (reader.Read())
                     {
-                        Post post = new Post()
+                        Author author = new Author()
+                        {
+                            FullName = reader.GetString(reader.GetOrdinal("FullName")),
+                        };
+
+                    Blog blog = new Blog()
+                    {
+                        Title = reader.GetString(reader.GetOrdinal("Title")),
+                    };
+
+                        post = new Post()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("PostTitle")),
-                            Url = reader.GetString(reader.GetOrdinal("PostUrl")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Url = reader.GetString(reader.GetOrdinal("Url")),
                             PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
-                            Author = new Author()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                Bio = reader.GetString(reader.GetOrdinal("Bio")),
-                            },
-                            Blog = new Blog()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
-                                Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
-                                Url = reader.GetString(reader.GetOrdinal("BlogUrl")),
-                            }
+                            Author = author,
+                            Blog = blog,
                         };
-                        posts.Add(post);
+                        posts.Add(post)
                     }
 
                     reader.Close();
-
                     return posts;
                 }
             }

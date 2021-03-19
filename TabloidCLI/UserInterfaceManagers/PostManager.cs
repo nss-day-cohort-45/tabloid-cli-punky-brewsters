@@ -147,6 +147,14 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 postToEdit.Url = url;
             }
+            Console.WriteLine("New Publication Date (blank to leave unchanged: ");
+            string publicationDate = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(publicationDate))
+            {
+                postToEdit.PublishDateTime = publicationDate;
+            }
+            Console.WriteLine("New Author (blank to leave unchanged: ");
+            
         }
 
     }
