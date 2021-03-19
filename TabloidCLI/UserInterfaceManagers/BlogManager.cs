@@ -45,6 +45,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "4":
                     Edit();
                     return this;
+                case "5":
+                    Remove();
+                    return this;
+                case "0":
+                    return _parentUI;
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;
@@ -128,6 +133,15 @@ namespace TabloidCLI.UserInterfaceManagers
             }
            
             _blogRepository.Update(blogToEdit);
+        }
+
+        private void Remove()
+        {
+            Blog blogToDelete = Choose("Which blog would you like to remove?");
+            if (blogToDelete != null)
+            {
+                _blogRepository.Delete(blogToDelete.Id);
+            }
         }
 
 
