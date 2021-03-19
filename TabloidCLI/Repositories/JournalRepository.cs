@@ -11,69 +11,103 @@ namespace TabloidCLI.Repositories
 
         public JournalRepository(string connectionString) : base(connectionString) { }
 
-        public List<Journal> GetAll()
-        {
-            throw new NotImplementedException();
-
-        }
 
         public Journal Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Journal> GetByAuthor(int authorId)
+        public List<Journal> GetAll()
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT j.Id, j.Title, j.Content, j.CreateDateTime
-                                          FROM Journal j;
-                    
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    cmd.CommandText = @"SELECT j.Id,
+                                               j.Title,
+                                               j.Content,
+                                               j.CreateDateTime
+                                          FROM Journal j";
 
-                    List<Post> posts = new List<Post>();
+                    List<Journal> journals = new List<Journal>();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Post post = new Post()
+                        Journal journal = new Journal()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("PostTitle")),
-                            Url = reader.GetString(reader.GetOrdinal("PostUrl")),
-                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
-                            Author = new Author()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                Bio = reader.GetString(reader.GetOrdinal("Bio")),
-                            },
-                            Blog = new Blog()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
-                                Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
-                                Url = reader.GetString(reader.GetOrdinal("BlogUrl")),
-                            }
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("Date")),
                         };
-                        posts.Add(post);
+                        journals.Add(journal);
                     }
 
                     reader.Close();
 
-                    return posts;
+                    return journals;
                 }
             }
         }
 
+        public void Insert(Journal journal)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Journal (Title, Content, CreateDateTime )
+                                                     VALUES (@title, @content, @createDateTime)";
+                    cmd.Parameters.AddWithValue("@title", journal.Title);
+                    cmd.Parameters.AddWithValue("@content", journal.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", journal.CreateDateTime);
 
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
+        public void Update(Journal journal)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Journal 
+                                           SET Title = @title,
+                                               Content = @content,
+                                               CreateDateTime = @CreateDateTime
+                                         WHERE id = @id";
 
+                    cmd.Parameters.AddWithValue("@firstName", journal.Title);
+                    cmd.Parameters.AddWithValue("@lastName", journal.Content);
+                    cmd.Parameters.AddWithValue("@bio", journal.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@id", journal.Id);
 
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Journal WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
 
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
-
+        
     }
 }
