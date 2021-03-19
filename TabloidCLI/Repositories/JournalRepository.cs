@@ -83,9 +83,9 @@ namespace TabloidCLI.Repositories
                                                CreateDateTime = @CreateDateTime
                                          WHERE id = @id";
 
-                    cmd.Parameters.AddWithValue("@firstName", journal.Title);
-                    cmd.Parameters.AddWithValue("@lastName", journal.Content);
-                    cmd.Parameters.AddWithValue("@bio", journal.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@title", journal.Title);
+                    cmd.Parameters.AddWithValue("@content", journal.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", journal.CreateDateTime);
                     cmd.Parameters.AddWithValue("@id", journal.Id);
 
                     cmd.ExecuteNonQuery();
