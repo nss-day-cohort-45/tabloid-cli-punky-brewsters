@@ -131,11 +131,10 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             Console.Write("New date (blank to leave unchanged: ");
-            DateTime? dat = null;
-            DateTime createDateTime = DateTime.Parse(Console.ReadLine());
-            if (!dat.HasValue)
+            bool success = DateTime.TryParse(Console.ReadLine(), out DateTime date);
+            if (success)
             {
-                journalToEdit.CreateDateTime = createDateTime;
+                journalToEdit.CreateDateTime = date; 
             }
 
             _journalRepository.Update(journalToEdit);
