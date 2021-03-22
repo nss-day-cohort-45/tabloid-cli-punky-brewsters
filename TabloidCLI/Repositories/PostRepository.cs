@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.Repositories
 {
@@ -68,7 +69,7 @@ namespace TabloidCLI.Repositories
                             Author = author,
                             Blog = blog,
                         };
-                        posts.Add(post)
+                        posts.Add(post);
                     }
 
                     reader.Close();

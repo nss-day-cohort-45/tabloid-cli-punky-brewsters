@@ -52,7 +52,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "4":
                     Edit();
                     return this;
-                case "5";
+                case "5":
                     Remove();
                     return this;
                 case "0":
@@ -154,7 +154,28 @@ namespace TabloidCLI.UserInterfaceManagers
                 postToEdit.PublishDateTime = publicationDate;
             }
             Console.WriteLine("New Author (blank to leave unchanged: ");
-            
+            string author = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(author))
+            {
+                postToEdit.Author = author;
+            }
+            Console.WriteLine("New Blog (blank to leave unchanged: ");
+            string blog = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(blog))
+            {
+                postToEdit.Blog = blog;
+            }
+
+            _postRepository.Update(postToEdit);
+        }
+
+        private void Remove()
+        {
+            Post postToDelete = Choose("Which post would you like to remove?");
+            if (postToDelete != null)
+            {
+                _postRepository.Delete(postToDelete.Id);
+            }
         }
 
     }
