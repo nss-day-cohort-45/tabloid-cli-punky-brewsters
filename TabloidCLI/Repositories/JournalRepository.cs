@@ -40,7 +40,7 @@ namespace TabloidCLI.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
                             Content = reader.GetString(reader.GetOrdinal("Content")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("Date")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                         };
                         journals.Add(journal);
                     }
@@ -83,9 +83,9 @@ namespace TabloidCLI.Repositories
                                                CreateDateTime = @CreateDateTime
                                          WHERE id = @id";
 
-                    cmd.Parameters.AddWithValue("@firstName", journal.Title);
-                    cmd.Parameters.AddWithValue("@lastName", journal.Content);
-                    cmd.Parameters.AddWithValue("@bio", journal.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@title", journal.Title);
+                    cmd.Parameters.AddWithValue("@content", journal.Content);
+                    cmd.Parameters.AddWithValue("@createDateTime", journal.CreateDateTime);
                     cmd.Parameters.AddWithValue("@id", journal.Id);
 
                     cmd.ExecuteNonQuery();
