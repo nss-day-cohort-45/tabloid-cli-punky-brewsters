@@ -153,7 +153,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 postToEdit.Url = url;
             }
             Console.WriteLine("New Publication Date (blank to leave unchanged: ");
-            bool success = DateTime.TryParse(Console.ReadLine(), out DateTime date);
+            string time = Console.ReadLine();
+            bool success = DateTime.TryParse(time, out DateTime date);
+            Console.WriteLine(success);
             if (success)
             {
                 postToEdit.PublishDateTime = date;
