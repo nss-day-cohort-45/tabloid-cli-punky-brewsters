@@ -159,7 +159,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 postToEdit.PublishDateTime = date;
             }
             Console.WriteLine("New Author (blank to leave unchanged: ");
-            AuthorChoose();
+            Author author = AuthorChoose();
+            if (author != null)
+            {
+                postToEdit.Author = author;
+            }
             Console.WriteLine("New Blog (blank to leave unchanged: ");
             BlogChoose();
 

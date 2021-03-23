@@ -30,6 +30,8 @@ namespace TabloidCLI
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
                             Url = reader.GetString(reader.GetOrdinal("Url")),
+                            //Author = 
+                            //Blog = 
                         };
                         posts.Add(post);
                     };
@@ -139,15 +141,15 @@ namespace TabloidCLI
                                                SET Title = @title,
                                                    URL = @url,
                                                    PublicationDate = @publicationDate,
-                                                   Author = @author,
-                                                   Blog = @blog
+                                                   AuthorId = @authorId,
+                                                   BlogId = @blogId
                                              WHERE id = @id";
 
                             cmd.Parameters.AddWithValue("@title", post.Title);
                             cmd.Parameters.AddWithValue("@url", post.Url);
-                            cmd.Parameters.AddWithValue("@author", post.Author);
-                            cmd.Parameters.AddWithValue("@publishdatetime", post.PublishDateTime);
-                            cmd.Parameters.AddWithValue("@blog", post.Blog);
+                            cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
+                            cmd.Parameters.AddWithValue("@publicationDate", post.PublishDateTime);
+                            cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
 
                             cmd.ExecuteNonQuery();
                         }
