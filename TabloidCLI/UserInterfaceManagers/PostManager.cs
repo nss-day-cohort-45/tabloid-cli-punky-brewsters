@@ -99,7 +99,9 @@ namespace TabloidCLI.UserInterfaceManagers
             try
             {
                 int choice = int.Parse(input);
-                return posts[choice - 1];
+                Post taco = posts[choice - 1];
+                return taco;
+
             }
             catch (Exception ex)
             {
@@ -159,7 +161,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 postToEdit.PublishDateTime = date;
             }
             Console.WriteLine("New Author (blank to leave unchanged: ");
-            AuthorChoose();
+            AuthorEdit();
             Console.WriteLine("New Blog (blank to leave unchanged: ");
             BlogChoose();
 
@@ -193,6 +195,41 @@ namespace TabloidCLI.UserInterfaceManagers
             }
             Console.Write("> ");
 
+            try
+            {
+                bool success = int.TryParse(Console.ReadLine(), out int index);
+                while (!success)
+                {
+                    Console.WriteLine("You must choose an author.");
+                    success = int.TryParse(Console.ReadLine(), out index);
+                }
+                return authors[index - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+        }
+
+        private Author AuthorEdit(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "Please choose an Author:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Author> authors = _authorRepository.GetAll();
+
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Author author = authors[i];
+                Console.WriteLine($" {i + 1}) {author.FullName}");
+            }
+            Console.Write("> ");
+
             string input = Console.ReadLine();
             try
             {
@@ -201,7 +238,7 @@ namespace TabloidCLI.UserInterfaceManagers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Invalid Selection");
+                Console.WriteLine("Author remains the same.");
                 return null;
             }
         }
