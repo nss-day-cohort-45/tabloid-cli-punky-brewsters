@@ -15,7 +15,7 @@ namespace TabloidCLI.Models
             get
             {
                 return $"{FirstName} {LastName}";
-            }
+            } 
         }
 
         public override string ToString()
