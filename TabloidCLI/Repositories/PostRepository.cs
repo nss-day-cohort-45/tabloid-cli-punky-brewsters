@@ -52,13 +52,19 @@ namespace TabloidCLI
                             Title = reader.GetString(reader.GetOrdinal("BlogTitle"))
                         };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2dba00ab8a0d0c6972c10cd3a8cc5226db005f31
                         Post post = new Post()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("PostTitle")),
                             Url = reader.GetString(reader.GetOrdinal("PostUrl")),
+<<<<<<< HEAD
                             PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
+=======
+>>>>>>> 2dba00ab8a0d0c6972c10cd3a8cc5226db005f31
                             Author = author,
                             Blog = blog,
                         };
@@ -168,8 +174,13 @@ namespace TabloidCLI
                         {
                             cmd.CommandText = @"UPDATE Post 
                                                SET Title = @title,
+<<<<<<< HEAD
                                                    URL = @url,
                                                    PublishDateTime = @publishdatetime,
+=======
+                                                   Url = @url,
+                                                   PublishDateTime = @publishDateTime,
+>>>>>>> 2dba00ab8a0d0c6972c10cd3a8cc5226db005f31
                                                    AuthorId = @authorId,
                                                    BlogId = @blogId
                                              WHERE id = @id";
@@ -178,7 +189,11 @@ namespace TabloidCLI
                             cmd.Parameters.AddWithValue("@title", post.Title);
                             cmd.Parameters.AddWithValue("@url", post.Url);
                             cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
+<<<<<<< HEAD
                             cmd.Parameters.AddWithValue("@publishdatetime", post.PublishDateTime);
+=======
+                            cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
+>>>>>>> 2dba00ab8a0d0c6972c10cd3a8cc5226db005f31
                             cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
 
                             cmd.ExecuteNonQuery();

@@ -155,13 +155,23 @@ namespace TabloidCLI.UserInterfaceManagers
                 postToEdit.Url = url;
             }
             Console.WriteLine("New Publication Date (blank to leave unchanged: ");
-            bool success = DateTime.TryParse(Console.ReadLine(), out DateTime date);
+            string time = Console.ReadLine();
+            bool success = DateTime.TryParse(time, out DateTime date);
+            Console.WriteLine(success);
             if (success)
             {
                 postToEdit.PublishDateTime = date;
             }
             Console.WriteLine("New Author (blank to leave unchanged: ");
+<<<<<<< HEAD
             AuthorEdit();
+=======
+            Author author = AuthorChoose();
+            if (author != null)
+            {
+                postToEdit.Author = author;
+            }
+>>>>>>> 2dba00ab8a0d0c6972c10cd3a8cc5226db005f31
             Console.WriteLine("New Blog (blank to leave unchanged: ");
             BlogChoose();
 
